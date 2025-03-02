@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
 
 interface IMenuItem {
   label: string;
@@ -33,6 +36,7 @@ const items = ref<IMenuItem[]>([
 
 <template>
   <app-menubar :model="items" class="menu">
+    <template #start>{{ userStore.userId }}</template>
     <template #item="{ item, props }">
       <router-link
         to="item.path"
