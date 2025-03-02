@@ -1,31 +1,53 @@
 import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
+import type {
+  RouteRecordRaw,
+  RouteLocationNormalized,
+  NavigationGuardNext,
+} from "vue-router";
+import { useUserStore } from "@/stores/user";
+
+const checkAuth = (
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
+) => {
+  const userStore = useUserStore();
+  if (!userStore.userId) {
+    next({ name: "Auth" });
+  }
+  next();
+};
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
     component: () => import("@/views/PageHome.vue"),
+    beforeEnter: checkAuth,
   },
   {
     path: "/auth",
     name: "Auth",
     component: () => import("@/views/PageAuth.vue"),
+    beforeEnter: checkAuth,
   },
   {
     path: "/interview/:id",
     name: "Interview",
     component: () => import("@/views/PageInterview.vue"),
+    beforeEnter: checkAuth,
   },
   {
     path: "/list",
     name: "List",
     component: () => import("@/views/PageList.vue"),
+    beforeEnter: checkAuth,
   },
   {
     path: "/statistic",
     name: "Statistic",
     component: () => import("@/views/PageStatistic.vue"),
+    beforeEnter: checkAuth,
   },
 ];
 
