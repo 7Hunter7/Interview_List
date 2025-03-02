@@ -27,8 +27,12 @@ const items = ref([
 
 <template>
   <app-menubar :model="items" class="menu">
-    <template #item="{ item }">
-      <router-link to="item.path" class="flex align-items-center">
+    <template #item="{ item, props }">
+      <router-link
+        to="item.path"
+        class="flex align-items-center"
+        v-bind="props.action"
+      >
         <span :class="item.icon" class="p-menuitem-icon"></span>
         <span class="ml-2">{{ item.label }}</span>
       </router-link>
