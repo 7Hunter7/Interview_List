@@ -55,7 +55,11 @@ const items = ref<IMenuItem[]>([
       </template>
     </template>
     <template #end>
-      <span class="flex align-items-center menu-exit">
+      <span
+        v-if="userStore.userId"
+        @click="userStore.userId = ''"
+        class="flex align-items-center menu-exit"
+      >
         <span class="pi pi-sign-out p-menuitem-icon" />
         <span class="ml-2">Выход</span>
       </span>
