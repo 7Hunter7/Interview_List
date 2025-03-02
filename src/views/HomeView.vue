@@ -1,7 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>Hello!</h1>
+  <h1>Home</h1>
+  <p>Это домашняя страница</p>
 </template>
 
 <style scoped></style>
