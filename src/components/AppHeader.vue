@@ -43,6 +43,12 @@ const items = ref<IMenuItem[]>([
         <span class="ml-2">{{ item.label }}</span>
       </router-link>
     </template>
+    <template #end>
+      <span class="flex align-items-center menu-exit">
+        <span class="pi pi-sign-out p-menuitem-icon" />
+        <span class="ml-2">Выход</span>
+      </span>
+    </template>
   </app-menubar>
 </template>
 
