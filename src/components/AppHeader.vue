@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const items = ref([
+interface IMenuItem {
+  label: string;
+  icon: string;
+  path: string;
+}
+
+const items = ref<IMenuItem[]>([
   {
     label: "Авторизация",
     icon: "pi pi-user",
