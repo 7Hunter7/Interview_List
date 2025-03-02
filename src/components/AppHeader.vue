@@ -26,10 +26,21 @@ const items = ref([
 </script>
 
 <template>
-  <app-menubar :model="items" class="menu"> </app-menubar>
+  <app-menubar :model="items" class="menu">
+    <template #item="{ item }">
+      <router-link to="item.path" class="flex align-items-center">
+        <span :class="item.icon" class="p-menuitem-icon"></span>
+        <span class="ml-2">{{ item.label }}</span>
+      </router-link>
+    </template>
+  </app-menubar>
 </template>
 
 <style scoped>
 .menu {
+  margin: 30px 0;
+}
+.menu-exit {
+  cursor: pointer;
 }
 </style>
