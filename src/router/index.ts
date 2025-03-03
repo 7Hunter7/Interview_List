@@ -9,13 +9,13 @@ import { useUserStore } from "@/stores/user";
 const checkAuth = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext // Функция, которая позволяет продолжить навигацию
 ) => {
   const userStore = useUserStore();
   if (!userStore.userId) {
-    next({ name: "Auth" });
+    next({ name: "Auth" }); // Если пользователь не авторизован, перенаправляем на страницу авторизации
   }
-  next();
+  next(); // Если пользователь авторизован, продолжаем
 };
 
 const routes: RouteRecordRaw[] = [
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     name: "home",
     component: () => import("@/views/PageHome.vue"),
-    beforeEnter: checkAuth,
+    beforeEnter: checkAuth, // Проверка авторизации перед переходом на страницу
   },
   {
     path: "/auth",
