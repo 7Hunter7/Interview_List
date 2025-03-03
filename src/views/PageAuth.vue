@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth"; // Firebase Auth с помощью логина и пароля
 
+const router = useRouter();
 const email = ref<string>("");
 const password = ref<string>("");
 const isLogin = ref<boolean>(true);
@@ -27,6 +34,31 @@ const submitform = (): void => {
   setTimeout(() => {
     isLoading.value = false;
   }, 2000);
+};
+
+//  Функция входа
+const signIn = async (): Promise<void> => {
+  isLoading.value = true;
+  try {
+    await createUserWithEmailAndPassword(
+      getAuth(),
+      email.value,
+      password.value
+    );
+    router.push("/"); // Переход на главную страницу
+  } catch (error: unknown) {
+    // Если ошибка
+    if (error instanceof Error) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: error.message,
+        life: 3000,
+      });
+    }
+  } finally {
+    isLoading.value = false; // Загрузка завершена
+  }
 };
 </script>
 
