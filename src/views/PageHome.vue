@@ -62,4 +62,12 @@ const disabledSaveButton = computed<boolean>(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.input {
+  width: 100%;
+}
+.content-interview {
+  max-width: 600px;
+  margin: auto;
+}
+</style>
