@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { IInterview } from "@/interfaces";
 
 const company = ref<string>("");
 const vacancyLink = ref<string>("");

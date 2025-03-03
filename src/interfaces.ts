@@ -8,4 +8,6 @@ export interface IInterview {
   contactTelegram?: string;
   contactWhatsApp?: string;
   contactPhone?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
