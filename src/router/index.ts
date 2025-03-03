@@ -4,18 +4,25 @@ import type {
   RouteLocationNormalized,
   NavigationGuardNext,
 } from "vue-router";
-import { useUserStore } from "@/stores/user";
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импорт функций для работы с авторизацией
 
 const checkAuth = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext // Функция, которая позволяет продолжить навигацию
+  next: NavigationGuardNext
 ) => {
-  const userStore = useUserStore();
-  if (!userStore.userId) {
-    next({ name: "Auth" }); // Если пользователь не авторизован, перенаправляем на страницу авторизации
-  }
-  next(); // Если пользователь авторизован, продолжаем
+  let isAuth = false;
+
+  // Проверка авторизации пользователя
+  onAuthStateChanged(getAuth(), (user) => {
+    if (user && !isAuth) {
+      isAuth = true;
+      next();
+    } else if (!user && !isAuth) {
+      isAuth = true;
+      next("/auth");
+    }
+  });
 };
 
 const routes: RouteRecordRaw[] = [
