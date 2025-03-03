@@ -8,10 +8,13 @@ const contactTelegram = ref<string>("");
 const contactWhatsApp = ref<string>("");
 const contactPhone = ref<string>("");
 
-const loading = ref<boolean>("false");
+const loading = ref<boolean>(false);
+
 const addNewInterview = (){};
 
+// Проверка на заполненность полей
 const disabledSaveButton = computed<boolean>(() => {
+  // Если хотя бы одно поле не заполнено, то кнопка неактивна
   return !(company.value && vacancyLink.value && hrName.value)
 })
 </script>
