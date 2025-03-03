@@ -11,7 +11,19 @@ const contactPhone = ref<string>("");
 
 const loading = ref<boolean>(false);
 
-const addNewInterview = (){};
+const addNewInterview = (){
+  payload: IInterview = {
+    id: "???",
+    company: company.value,
+    vacancyLink: vacancyLink.value,
+    hrName: hrName.value,
+    contactTelegram: contactTelegram.value,
+    contactWhatsApp: contactWhatsApp.value,
+    contactPhone: contactPhone.value,
+    createdAt: new Date().toISOString(),
+  };
+
+};
 
 // Проверка на заполненность полей
 const disabledSaveButton = computed<boolean>(() => {
