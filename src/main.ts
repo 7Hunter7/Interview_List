@@ -14,6 +14,7 @@ import InputText from "primevue/inputtext";
 import { initializeApp } from "firebase/app";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
+import ProgressSpinner from "primevue/ProgressSpinner";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -40,5 +41,6 @@ app.component("app-menubar", Menubar);
 app.component("app-button", Button);
 app.component("app-input-text", InputText);
 app.component("app-toast", Toast);
+app.component("app-progress", ProgressSpinner);
 
 app.mount("#app");
