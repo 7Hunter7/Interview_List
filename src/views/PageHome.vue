@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import type { IInterview } from "@/interfaces";
-import  { v4 as uuidv4 } from "uuid"; // Для генерации уникального id
+import { v4 as uuidv4 } from "uuid"; // Для генерации уникального id
+import { getAuth } from "firebase/auth";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
 
 const company = ref<string>("");
 const vacancyLink = ref<string>("");
@@ -12,8 +14,9 @@ const contactPhone = ref<string>("");
 
 const loading = ref<boolean>(false);
 
-const addNewInterview = (){
-  payload: IInterview[] = {
+const addNewInterview = async (): Promise<void> => {
+  loading.value = true;
+  const payload: IInterview = {
     id: uuidv4(), // Генерируем уникальный id
     company: company.value,
     vacancyLink: vacancyLink.value,
@@ -23,18 +26,31 @@ const addNewInterview = (){
     contactPhone: contactPhone.value,
     createdAt: new Date().toISOString(),
   };
-console.log(payload);
-  // Отправка данных на сервер
-  // loading.value = true;
-  // await api.postInterview(payload);
-  // loading.value = false;
+  const userId = getAuth().currentUser?.uid; // Получаем id пользователя
+  if (userId) {
+    const db = getFirestore(); // Получаем доступ к Firestore
+    const userDoc = doc(db, "users", userId); // Получаем документ пользователя
+    try {
+      await setDoc(doc(userDoc, "interviews", payload.id), payload); // Добавляем новое собеседование
+      company.value = "";
+      vacancyLink.value = "";
+      hrName.value = "";
+      contactTelegram.value = "";
+      contactWhatsApp.value = "";
+      contactPhone.value = "";
+    } catch (error: unknown) {
+      console.error(error);
+    } finally {
+      loading.value = false;
+    }
+  }
 };
 
 // Проверка на заполненность полей
 const disabledSaveButton = computed<boolean>(() => {
   // Если хотя бы одно поле не заполнено, то кнопка неактивна
-  return !(company.value && vacancyLink.value && hrName.value)
-})
+  return !(company.value && vacancyLink.value && hrName.value);
+});
 </script>
 
 <template>
