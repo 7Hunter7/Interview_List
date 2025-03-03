@@ -5,16 +5,19 @@ import AppHeder from "@/components/AppHeader.vue";
 import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
+const isLoading = ref(true);
 
 onMounted(() => {
   onAuthStateChanged(getAuth(), (user) => {
     userStore.userId = user ? user.uid : ""; // Если пользователь авторизован, то записываем его id в хранилище
   });
+  isLoading.value = false;
 });
 </script>
 
 <template>
-  <div class="container">
+  <app-progress v-if="isLoading" />
+  <div v-else class="container">
     <AppHeder />
     <div class="content">
       <RouterView />
