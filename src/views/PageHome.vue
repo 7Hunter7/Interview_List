@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { IInterview } from "@/interfaces";
+import type { IInterview } from "@/interfaces";
+import  { v4 as uuidv4 } from "uuid"; // Для генерации уникального id
 
 const company = ref<string>("");
 const vacancyLink = ref<string>("");
@@ -12,8 +13,8 @@ const contactPhone = ref<string>("");
 const loading = ref<boolean>(false);
 
 const addNewInterview = (){
-  payload: IInterview = {
-    id: "???",
+  payload: IInterview[] = {
+    id: uuidv4(), // Генерируем уникальный id
     company: company.value,
     vacancyLink: vacancyLink.value,
     hrName: hrName.value,
@@ -22,7 +23,11 @@ const addNewInterview = (){
     contactPhone: contactPhone.value,
     createdAt: new Date().toISOString(),
   };
-
+console.log(payload);
+  // Отправка данных на сервер
+  // loading.value = true;
+  // await api.postInterview(payload);
+  // loading.value = false;
 };
 
 // Проверка на заполненность полей
