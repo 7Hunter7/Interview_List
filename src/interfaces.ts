@@ -1,4 +1,4 @@
-// Интерфейс собеседованияs
+// Интерфейс собеседования
 
 export interface IInterview {
   id: string;
