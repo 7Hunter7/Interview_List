@@ -2,8 +2,11 @@
 import { computed, ref } from "vue";
 import type { ComputedRef } from "vue";
 import { useUserStore } from "@/stores/user";
+import { getAuth, signOut } from "firebase/auth";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
+const router = useRouter();
 
 interface IMenuItem {
   label: string;
@@ -12,6 +15,7 @@ interface IMenuItem {
   show?: ComputedRef<boolean>;
 }
 
+// Массив с пунктами меню
 const items = ref<IMenuItem[]>([
   {
     label: "Авторизация",
@@ -38,6 +42,13 @@ const items = ref<IMenuItem[]>([
     show: computed((): boolean => !!userStore.userId),
   },
 ]);
+
+// Функция выхода
+const signOutMethod = async (): Promise<void> => {
+  await signOut(getAuth());
+  userStore.userId = "";
+  router.push("/auth");
+};
 </script>
 
 <template>
@@ -57,7 +68,7 @@ const items = ref<IMenuItem[]>([
     <template #end>
       <span
         v-if="userStore.userId"
-        @click="userStore.userId = ''"
+        @click="signOutMethod()"
         class="flex align-items-center menu-exit"
       >
         <span class="pi pi-sign-out p-menuitem-icon" />
