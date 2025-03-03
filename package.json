@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^11.4.0",
     "pinia": "^3.0.1",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
