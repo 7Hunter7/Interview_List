@@ -13,6 +13,7 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { initializeApp } from "firebase/app";
 import ToastService from "primevue/toastservice";
+import Toast from "primevue/toast";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -34,9 +35,10 @@ app.use(pinia);
 app.use(router);
 app.use(PrimeVue);
 app.use(ToastService);
-app.component("app-toast", ToastService);
+
 app.component("app-menubar", Menubar);
 app.component("app-button", Button);
 app.component("app-input-text", InputText);
+app.component("app-toast", Toast);
 
 app.mount("#app");
