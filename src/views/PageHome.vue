@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import type { IInterview } from "@/interfaces";
 import { v4 as uuidv4 } from "uuid"; // Для генерации уникального id
 import { getAuth } from "firebase/auth";
 import { getFirestore, setDoc, doc } from "firebase/firestore";
+
+const router = useRouter();
 
 const company = ref<string>("");
 const vacancyLink = ref<string>("");
@@ -31,13 +34,10 @@ const addNewInterview = async (): Promise<void> => {
     const db = getFirestore(); // Получаем доступ к Firestore
     const userDoc = doc(db, "users", userId); // Получаем документ пользователя
     try {
-      await setDoc(doc(userDoc, "interviews", payload.id), payload); // Добавляем новое собеседование
-      company.value = "";
-      vacancyLink.value = "";
-      hrName.value = "";
-      contactTelegram.value = "";
-      contactWhatsApp.value = "";
-      contactPhone.value = "";
+      // Добавляем новое собеседование
+      await setDoc(doc(userDoc, "interviews", payload.id), payload).then(() => {
+        router.push("/list"); // Переход на страницу со списком собеседований
+      });
     } catch (error: unknown) {
       console.error(error);
     } finally {
