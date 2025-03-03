@@ -5,7 +5,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from "firebase/auth"; // Firebase Auth с помощью логина и пароля
+} from "firebase/auth"; // Firebase Auth с помощью Email и пароля
 import { useToast } from "primevue/usetoast";
 
 const router = useRouter();
@@ -32,12 +32,8 @@ const submitButtonText = computed<string>(() => {
   return isLogin.value ? "Вход" : "Регистрация";
 });
 
-const submitform = (): void => {
-  signIn();
-};
-
-//  Функция входа
-const signIn = async (): Promise<void> => {
+//  Функция регистрации
+const signUp = async (): Promise<void> => {
   isLoading.value = true;
   try {
     await createUserWithEmailAndPassword(
@@ -58,6 +54,35 @@ const signIn = async (): Promise<void> => {
     }
   } finally {
     isLoading.value = false; // Загрузка завершена
+  }
+};
+
+//  Функция входа
+const signIn = async (): Promise<void> => {
+  isLoading.value = true;
+  try {
+    await signInWithEmailAndPassword(getAuth(), email.value, password.value);
+    router.push("/"); // Переход на главную страницу
+  } catch (error: unknown) {
+    // Если ошибка
+    if (error instanceof Error) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: error.message,
+        life: 3000,
+      });
+    }
+  } finally {
+    isLoading.value = false; // Загрузка завершена
+  }
+};
+
+const submitForm = (): void => {
+  if (isLogin.value) {
+    signIn();
+  } else {
+    signUp();
   }
 };
 </script>
