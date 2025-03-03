@@ -14,7 +14,7 @@ import InputText from "primevue/inputtext";
 import { initializeApp } from "firebase/app";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
-import ProgressSpinner from "primevue/ProgressSpinner";
+import ProgressSpinner from "primevue/progressspinner";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
