@@ -6,8 +6,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth"; // Firebase Auth с помощью логина и пароля
+import { useToast } from "primevue/usetoast";
 
 const router = useRouter();
+const toast = useToast();
+
 const email = ref<string>("");
 const password = ref<string>("");
 const isLogin = ref<boolean>(true);
@@ -30,10 +33,7 @@ const submitButtonText = computed<string>(() => {
 });
 
 const submitform = (): void => {
-  isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 2000);
+  signIn();
 };
 
 //  Функция входа
