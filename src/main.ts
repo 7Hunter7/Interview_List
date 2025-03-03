@@ -10,6 +10,7 @@ import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
 import Menubar from "primevue/menubar";
 import Button from "primevue/button";
+import InputText from "primevue/inputtext";
 import { initializeApp } from "firebase/app";
 
 // Web app's Firebase configuration
@@ -33,5 +34,6 @@ app.use(router);
 app.use(PrimeVue);
 app.component("app-menubar", Menubar);
 app.component("app-button", Button);
+app.component("app-inputtext", InputText);
 
 app.mount("#app");
