@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
+const email = ref<string>("");
+const password = ref<string>("");
 const isLogin = ref<boolean>(true);
+const isLoading = ref<boolean>(false);
 
 const toggleAuth = () => {
   isLogin.value = !isLogin.value;
@@ -14,6 +17,17 @@ const subtitleText = computed<string>(() => {
 const linkAccountText = computed<string>(() => {
   return isLogin.value ? "Cоздайте сейчас?" : "Войдите в него";
 });
+
+const submitButtonText = computed<string>(() => {
+  return isLogin.value ? "Вход" : "Регистрация";
+});
+
+const submitform = (): void => {
+  isLoading.value = true;
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 2000);
+};
 </script>
 
 <template>
@@ -32,6 +46,36 @@ const linkAccountText = computed<string>(() => {
           {{ linkAccountText }}
         </a>
       </div>
+
+      <form @submit.prevent="submitForm">
+        <label for="email1" class="block text-900 font-medium mb-2"
+          >Email</label
+        >
+        <app-input-text
+          v-model="email"
+          id="email1"
+          type="email"
+          class="w-full mb-3"
+        />
+
+        <label for="password1" class="block text-900 font-medium mb-2"
+          >Пароль</label
+        >
+        <app-input-text
+          v-model="password"
+          id="password1"
+          type="password"
+          class="w-full mb-3"
+        />
+
+        <app-button
+          :label="submitButtonText"
+          type="submit"
+          icon="pi pi-user"
+          :loading="isLoading"
+          class="w-full"
+        ></app-button>
+      </form>
     </div>
   </div>
 </template>

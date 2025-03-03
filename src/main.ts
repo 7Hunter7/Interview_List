@@ -34,6 +34,6 @@ app.use(router);
 app.use(PrimeVue);
 app.component("app-menubar", Menubar);
 app.component("app-button", Button);
-app.component("app-inputtext", InputText);
+app.component("app-input-text", InputText);
 
 app.mount("#app");
