@@ -32,15 +32,35 @@ const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
 
 onMounted(async () => {
   const listInterviews: Array<IInterview> = await getAllInterviews();
-  console.log(listInterviews);
-
   interviews.value = [...listInterviews];
 });
 </script>
 
 <template>
   <h1>Список собеседований</h1>
-  <p>Это страница списка собеседований</p>
+  <app-data-table :data="interviews" :isLoading="isLoading">
+    <app-column field="company" header="Компания" />
+    <app-column field="hrName" header="Имя HR" />
+    <app-column field="vacancyLink" header="Вакансия">
+      <template #body="slotProps">
+        <a :href="slotProps.data.vacancyLink" target="_blank">{{
+          slotProps.data.vacancyLink
+        }}</a>
+      </template>
+    </app-column>
+    <app-column header="Контакты">
+      <template #body="slotProps">
+        <a
+          v-if="slotProps.data.contactPhone"
+          :href="`https://t.me/${slotProps.data.contactTelegram}`"
+          target="_blank"
+          class="contacts__telegram"
+        >
+          <span class="contacts__icon pi pi-telegram"></span>
+        </a>
+      </template>
+    </app-column>
+  </app-data-table>
 </template>
 
 <style scoped></style>
