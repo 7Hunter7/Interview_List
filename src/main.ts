@@ -29,6 +29,7 @@ import Column from "primevue/column";
 import DataTable from "primevue/datatable";
 import ConfirmDialog from "primevue/confirmdialog";
 import InlineMessage from "primevue/inlinemessage";
+import Badge from "primevue/badge";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -66,5 +67,6 @@ app.component("app-column", Column);
 app.component("app-datatable", DataTable);
 app.component("app-dialog", ConfirmDialog);
 app.component("app-message", InlineMessage);
+app.component("app-badge", Badge);
 
 app.mount("#app");
