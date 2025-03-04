@@ -29,6 +29,18 @@
           <label for="contactPhone">Телефон HR</label>
           <app-input-text class="input mb-3" id="contactPhone" />
         </div>
+        <div class="flex flex-wrap gap-3 p-fluid mb-3">
+          <div class="flex-auto">
+            <app-input-number
+              inputId="salsaryFrom"
+              placeholder="Зарплатная вилка от"
+            />
+            <app-input-number
+              inputId="salsaryTo"
+              placeholder="Зарплатная вилка до"
+            />
+          </div>
+        </div>
       </template>
     </app-card>
   </div>
