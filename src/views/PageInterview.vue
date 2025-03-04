@@ -61,15 +61,16 @@ const deleteStage = (index: number) => {
 const saveInterview = async (): Promise<void> => {
   isLoading.value = true;
 
-  // Если данные есть, обновляем документ в Firestore
+  // Проверяем, что массив с этапами существует и не пустой
   if (interview.value?.stages && interview.value.stages.length) {
     interview.value.stages = interview.value.stages.map((stage: IStage) => {
       return {
         ...stage,
-        date: dayjs(stage.date).format("DD.MM.YYYY"), // Преобразуем дату в удобном формате
+        date: dayjs(stage.date).format("DD.MM.YYYY"), // Преобразуем дату в удобный формат
       };
     });
 
+    // Обновляем документ в Firestore
     await updateDoc(docRef, interview.value);
     await getData(); // Обновляем данные
   }
