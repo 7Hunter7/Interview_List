@@ -16,6 +16,8 @@ import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import ProgressSpinner from "primevue/progressspinner";
 import Card from "primevue/card";
+import Column from "primevue/column";
+import DataTable from "primevue/datatable";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -44,5 +46,7 @@ app.component("app-input-text", InputText);
 app.component("app-toast", Toast);
 app.component("app-progress", ProgressSpinner);
 app.component("app-card", Card);
+app.component("app-column", Column);
+app.component("app-datatable", DataTable);
 
 app.mount("#app");
