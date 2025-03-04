@@ -41,7 +41,7 @@ const addStage = () => {
     // Добавляем новый объект в массив
     interview.value.stage.push({
       name: "",
-      date: "",
+      date: null,
       description: "",
     } as IStage);
   }
