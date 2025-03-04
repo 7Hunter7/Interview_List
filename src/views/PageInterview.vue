@@ -22,8 +22,13 @@ const getData = async (): Promise<void> => {
   // Если документ существует, записываем его в переменную interview
   if (docSnap.exists()) {
     interview.value = docSnap.data() as IInterview;
+    console.log(interview.value);
   }
 };
+
+onMounted(async () => {
+  await getData();
+});
 </script>
 
 <template>
