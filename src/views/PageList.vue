@@ -12,9 +12,11 @@ import {
 } from "firebase/firestore"; // Импорт функций для работы с Firestore
 import { useUserStore } from "@/stores/user";
 import type { IInterview } from "@/interfaces";
+import { useConfirm } from "primevue/useconfirm";
 
 const userStore = useUserStore();
 const db = getFirestore(); // Получение доступа к Firestore
+const confirm = useConfirm();
 
 const interviews = ref<IInterview[]>([]);
 const isLoading = ref<boolean>(true);
@@ -32,77 +34,95 @@ const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
 
 // Функция удаления собеседования
 const confirmRemoveInterview = async (id: string): Promise<void> => {
-  if (confirm("Вы уверены, что хотите удалить это собеседование?")) {
-    await deleteDoc(doc(db, `users/${userStore.userId}/interviews`, id));
-    interviews.value = interviews.value.filter(
-      (interview) => interview.id !== id
-    );
-  }
+  confirm.require({
+    header: "Удаление собеседования",
+    message: "Вы уверены, что хотите удалить собеседование?",
+    icon: "pi pi-info-circle",
+    rejectLabel: "Отмена",
+    acceptLabel: "Удалить",
+    rejectClass: "p-button-secondary p-button-outlined",
+    acceptClass: "p-button-danger",
+
+    accept: async () => {
+      isLoading.value = true;
+
+      await deleteDoc(doc(db, `users/${userStore.userId}/interviews`, id));
+
+      const listInterviews: Array<IInterview> = await getAllInterviews();
+      interviews.value = [...listInterviews];
+      isLoading.value = false;
+    },
+  });
 };
 
 onMounted(async () => {
   const listInterviews: Array<IInterview> = await getAllInterviews();
   interviews.value = [...listInterviews];
+  isLoading.value = false;
 });
 </script>
 
 <template>
-  <h1>Список собеседований</h1>
-  <app-data-table :data="interviews" :isLoading="isLoading">
-    <app-column field="company" header="Компания" />
-    <app-column field="hrName" header="Имя HR" />
-    <app-column field="vacancyLink" header="Вакансия">
-      <template #body="slotProps">
-        <a :href="slotProps.data.vacancyLink" target="_blank">{{
-          slotProps.data.vacancyLink
-        }}</a>
-      </template>
-    </app-column>
-    <app-column header="Контакты">
-      <template #body="slotProps">
-        <div class="contacts">
-          <a
-            v-if="slotProps.data.contactPhone"
-            :href="`https://t.me/${slotProps.data.contactTelegram}`"
-            target="_blank"
-            class="contacts__telegram"
-          >
-            <span class="contacts__icon pi pi-telegram"></span>
-          </a>
-          <a
-            v-if="slotProps.data.contactWhatsApp"
-            :href="`https://wa.me/${slotProps.data.contactWhatsApp}`"
-            target="_blank"
-            class="contacts__whatsapp"
-          >
-            <span class="contacts__icon pi pi-whatsapp"></span>
-          </a>
-          <a
-            v-if="slotProps.data.contactPhone"
-            :href="`tel:${slotProps.data.contactPhone}`"
-            target="_blank"
-            class="contacts__phone"
-          >
-            <span class="contacts__icon pi pi-phone"></span>
-          </a>
-        </div>
-      </template>
-    </app-column>
-    <app-column>
-      <template #body="slotProps">
-        <div class="flex gap-2">
-          <router-link to="`/interview/${slotProps.data.id}`">
-            <app-button icon="pi pi-pencel" severity="info" />
-          </router-link>
-          <app-button
-            icon="pi pi-trash"
-            severity="danger"
-            @click="confirmRemoveInterview(slotProps.data.id)"
-          />
-        </div>
-      </template>
-    </app-column>
-  </app-data-table>
+  <app-dialog />
+  <app-progress v-if="isLoading" />
+  <div v-else>
+    <h1>Список собеседований</h1>
+    <app-data-table :data="interviews" :isLoading="isLoading">
+      <app-column field="company" header="Компания" />
+      <app-column field="hrName" header="Имя HR" />
+      <app-column field="vacancyLink" header="Вакансия">
+        <template #body="slotProps">
+          <a :href="slotProps.data.vacancyLink" target="_blank">{{
+            slotProps.data.vacancyLink
+          }}</a>
+        </template>
+      </app-column>
+      <app-column header="Контакты">
+        <template #body="slotProps">
+          <div class="contacts">
+            <a
+              v-if="slotProps.data.contactPhone"
+              :href="`https://t.me/${slotProps.data.contactTelegram}`"
+              target="_blank"
+              class="contacts__telegram"
+            >
+              <span class="contacts__icon pi pi-telegram"></span>
+            </a>
+            <a
+              v-if="slotProps.data.contactWhatsApp"
+              :href="`https://wa.me/${slotProps.data.contactWhatsApp}`"
+              target="_blank"
+              class="contacts__whatsapp"
+            >
+              <span class="contacts__icon pi pi-whatsapp"></span>
+            </a>
+            <a
+              v-if="slotProps.data.contactPhone"
+              :href="`tel:${slotProps.data.contactPhone}`"
+              target="_blank"
+              class="contacts__phone"
+            >
+              <span class="contacts__icon pi pi-phone"></span>
+            </a>
+          </div>
+        </template>
+      </app-column>
+      <app-column>
+        <template #body="slotProps">
+          <div class="flex gap-2">
+            <router-link to="`/interview/${slotProps.data.id}`">
+              <app-button icon="pi pi-pencel" severity="info" />
+            </router-link>
+            <app-button
+              icon="pi pi-trash"
+              severity="danger"
+              @click="confirmRemoveInterview(slotProps.data.id)"
+            />
+          </div>
+        </template>
+      </app-column>
+    </app-data-table>
+  </div>
 </template>
 
 <style scoped>
