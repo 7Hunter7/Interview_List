@@ -46,6 +46,16 @@ const addStage = () => {
   }
 };
 
+// Функция удаления этапа
+const deleteStage = (index: number) => {
+  if (interview.value) {
+    // Удаляем объект из массива по индексу
+    if (interview.value.stage) {
+      interview.value.stage.splice(index, 1);
+    }
+  }
+};
+
 onMounted(async () => {
   await getData();
 });
@@ -129,7 +139,7 @@ onMounted(async () => {
           severity="info"
           Icon="pi pi-plus"
           class="mb-3"
-          @click="addStage"
+          @click="addStage()"
         />
 
         // Шаблон для добавления этапа
@@ -167,7 +177,11 @@ onMounted(async () => {
                 v-model="stage.description"
               />
             </div>
-            <app-button severity="danger" label="Удалить этап" />
+            <app-button
+              severity="danger"
+              label="Удалить этап"
+              @click="deleteStage()"
+            />
           </div>
         </template>
 
