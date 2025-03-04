@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore"; // Импорт функций для работы с Firestore
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import type { IInterview } from "@/interfaces";
+import type { IInterview, IStage } from "@/interfaces";
 
 const db = getFirestore();
 const router = useRouter();
@@ -114,29 +114,35 @@ onMounted(async () => {
           Icon="pi pi-plus"
           class="mb-3"
         />
-        <div class="flex flex-column gap-2">
-          <label for="stageName">Название этапа</label>
-          <app-input-text class="input mb-3" id="stageName" />
-        </div>
 
-        <div class="flex flex-column gap-2">
-          <label for="stageСalendar">Дата прохождения этапа</label>
-          <app-calendar
-            class="input mb-3"
-            id="stageСalendar"
-            dateFormat="dd.mm.yy"
-          />
-        </div>
+        // Шаблон для добавления этапа
+        <template v-if="interview.stage">
+          <div class="interview-stage">
+            <div class="flex flex-column gap-2">
+              <label for="stageName">Название этапа</label>
+              <app-input-text class="input mb-3" id="stageName" />
+            </div>
 
-        <div class="flex flex-column gap-2">
-          <label for="stageDescription">Комментарий</label>
-          <app-input-textarea
-            class="input mb-3"
-            id="stageDescription"
-            rows="5"
-          />
-        </div>
-        <app-button severity="danger" label="Удалить этап" />
+            <div class="flex flex-column gap-2">
+              <label for="stageСalendar">Дата прохождения этапа</label>
+              <app-calendar
+                class="input mb-3"
+                id="stageСalendar"
+                dateFormat="dd.mm.yy"
+              />
+            </div>
+
+            <div class="flex flex-column gap-2">
+              <label for="stageDescription">Комментарий</label>
+              <app-input-textarea
+                id="stageDescription"
+                class="input mb-3"
+                rows="5"
+              />
+            </div>
+            <app-button severity="danger" label="Удалить этап" />
+          </div>
+        </template>
 
         <div class="flex flex-wrap gap-3 mb-3">
           <div class="flex align-items-center">
