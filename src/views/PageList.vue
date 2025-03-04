@@ -120,6 +120,7 @@ onMounted(async () => {
               :key="index"
               :value="index + 1"
               rounded
+              v-tooltip.top="stage.name"
             />
           </div>
         </template>
