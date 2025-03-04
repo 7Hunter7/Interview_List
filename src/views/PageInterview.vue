@@ -96,12 +96,14 @@ onMounted(async () => {
             <app-input-number
               inputId="salsaryFrom"
               placeholder="Зарплатная вилка от"
+              v-model="interview.salsaryFrom"
             />
           </div>
           <div class="flex-auto">
             <app-input-number
               inputId="salsaryTo"
               placeholder="Зарплатная вилка до"
+              v-model="interview.salsaryTo"
             />
           </div>
         </div>
