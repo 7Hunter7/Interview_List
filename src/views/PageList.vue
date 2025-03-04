@@ -119,6 +119,22 @@ onMounted(async () => {
           >
         </template>
       </app-column>
+
+      <app-column header="Результат">
+        <template #body="slotProps">
+          <span v-if="!slotProps.data.result">Не заполнено</span>
+          <template v-else>
+            <app-bage
+              :severity="
+                slotProps.data.result === 'Offer' ? 'success' : 'danger'
+              "
+              :value="slotProps.data.result === 'Offer' ? 'Оффер' : 'Отказ'"
+            >
+            </app-bage>
+          </template>
+        </template>
+      </app-column>
+
       <app-column>
         <template #body="slotProps">
           <div class="flex gap-2">
