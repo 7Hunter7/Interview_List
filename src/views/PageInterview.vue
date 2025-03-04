@@ -51,6 +51,15 @@
           <label for="stageName">Название этапа</label>
           <app-input-text class="input mb-3" id="stageName" />
         </div>
+
+        <div class="flex flex-column gap-2">
+          <label for="stageСalendar">Дата прохождения этапа</label>
+          <app-calendar
+            class="input mb-3"
+            id="stageСalendar"
+            dateFormat="dd.mm.yy"
+          />
+        </div>
       </template>
     </app-card>
   </div>
