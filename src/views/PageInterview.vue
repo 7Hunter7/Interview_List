@@ -56,6 +56,17 @@ const deleteStage = (index: number) => {
   }
 };
 
+// Функция сохранения данных
+const saveInterview = async (): Promise<void> => {
+  isLoading.value = true;
+  // Если данные есть, обновляем документ в Firestore и переходим на страницу со списком собеседований
+  if (interview.value) {
+    await updateDoc(docRef, interview.value);
+    await getData(); // Обновляем данные
+  }
+  isLoading.value = false;
+};
+
 onMounted(async () => {
   await getData();
 });
@@ -209,7 +220,11 @@ onMounted(async () => {
           </div>
         </div>
 
-        <app-button label="Сохранить" icon="pi pi-save" />
+        <app-button
+          label="Сохранить"
+          icon="pi pi-save"
+          @click="saveInterview()"
+        />
       </template>
     </app-card>
   </div>
