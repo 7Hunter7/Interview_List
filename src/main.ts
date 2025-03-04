@@ -3,21 +3,27 @@ import "primevue/resources/themes/saga-blue/theme.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
+import { initializeApp } from "firebase/app";
+
 import App from "./App.vue";
 import router from "./router";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+
 import PrimeVue from "primevue/config";
+import ToastService from "primevue/toastservice";
+import ConfirmationService from "primevue/confirmationservice";
+
+// Компонеты PrimeVue
 import Menubar from "primevue/menubar";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
-import { initializeApp } from "firebase/app";
-import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import ProgressSpinner from "primevue/progressspinner";
 import Card from "primevue/card";
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
+import ConfirmDialog from "primevue/confirmdialog";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -39,6 +45,7 @@ app.use(pinia);
 app.use(router);
 app.use(PrimeVue);
 app.use(ToastService);
+app.use(ConfirmationService);
 
 app.component("app-menubar", Menubar);
 app.component("app-button", Button);
@@ -48,5 +55,6 @@ app.component("app-progress", ProgressSpinner);
 app.component("app-card", Card);
 app.component("app-column", Column);
 app.component("app-datatable", DataTable);
+app.component("app-dialog", ConfirmDialog);
 
 app.mount("#app");
