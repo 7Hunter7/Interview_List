@@ -1,4 +1,30 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore"; // Импорт функций для работы с Firestore
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import type { IInterview } from "@/interfaces";
+
+const db = getFirestore();
+const router = useRouter();
+const userStore = useUserStore();
+const interview = ref<IInterview>();
+
+const docRef = doc(
+  db,
+  `users/${userStore.userId}/interviews`,
+  router.currentRoute.value.params.id as string
+);
+
+// Функция получения данных
+const getData = async (): Promise<void> => {
+  const docSnap = await getDoc(docRef);
+  // Если документ существует, записываем его в переменную interview
+  if (docSnap.exists()) {
+    interview.value = docSnap.data() as IInterview;
+  }
+};
+</script>
 
 <template>
   <div class="content-interview">
