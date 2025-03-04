@@ -75,9 +75,9 @@ onMounted(async () => {
       <app-column field="hrName" header="Имя HR" />
       <app-column field="vacancyLink" header="Вакансия">
         <template #body="slotProps">
-          <a :href="slotProps.data.vacancyLink" target="_blank">{{
-            slotProps.data.vacancyLink
-          }}</a>
+          <a :href="slotProps.data.vacancyLink" target="_blank"
+            >Ссылка на вакансию</a
+          >
         </template>
       </app-column>
       <app-column header="Контакты">
@@ -108,6 +108,15 @@ onMounted(async () => {
               <span class="contacts__icon pi pi-phone"></span>
             </a>
           </div>
+        </template>
+      </app-column>
+      <app-column header="Зарлатная вилка">
+        <template #body="slotProps">
+          <span v-if="!slotProps.data.salaryFrom">Не заполнено</span>
+          <span v-else>
+            {{ slotProps.data.salaryFrom }} -
+            {{ slotProps.data.salaryTo }}</span
+          >
         </template>
       </app-column>
       <app-column>
