@@ -110,6 +110,21 @@ onMounted(async () => {
           </div>
         </template>
       </app-column>
+
+      <app-column header="Пройденные этапы">
+        <template #body="slotProps">
+          <span v-if="!slotProps.data.stages">Не заполнено</span>
+          <div v-else class="interview-stage">
+            <app-badge
+              v-for="(stage, index) in slotProps.data.stages"
+              :key="index"
+              :value="index + 1"
+              rounded
+            />
+          </div>
+        </template>
+      </app-column>
+
       <app-column header="Зарлатная вилка">
         <template #body="slotProps">
           <span v-if="!slotProps.data.salaryFrom">Не заполнено</span>
@@ -124,13 +139,12 @@ onMounted(async () => {
         <template #body="slotProps">
           <span v-if="!slotProps.data.result">Не заполнено</span>
           <template v-else>
-            <app-bage
+            <app-badge
               :severity="
                 slotProps.data.result === 'Offer' ? 'success' : 'danger'
               "
               :value="slotProps.data.result === 'Offer' ? 'Оффер' : 'Отказ'"
-            >
-            </app-bage>
+            />
           </template>
         </template>
       </app-column>
@@ -170,5 +184,9 @@ onMounted(async () => {
 }
 .contacts__icon {
   font-size: 20px;
+}
+.interview-stages {
+  display: flex;
+  gap: 5px;
 }
 </style>
