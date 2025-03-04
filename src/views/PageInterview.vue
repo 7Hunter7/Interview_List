@@ -3,7 +3,7 @@
 <template>
   <div class="content-interview">
     <app-card>
-      <template #title>CСоьеседвание в компанию</template>
+      <template #title>Cобеседвание в компанию</template>
       <template #content>
         <div class="flex flex-column gap-2">
           <label for="company">Компания</label>
