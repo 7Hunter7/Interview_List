@@ -78,6 +78,20 @@ onMounted(async () => {
         </div>
       </template>
     </app-column>
+    <app-column>
+      <template #body="slotProps">
+        <div class="flex gap-2">
+          <router-link to="`/interview/${slotProps.data.id}`">
+            <app-button icon="pi pi-pencel" severity="info" />
+          </router-link>
+          <app-button
+            icon="pi pi-trash"
+            severity="danger"
+            @click="confirmRemoveInterview(slotProps.data.id)"
+          />
+        </div>
+      </template>
+    </app-column>
   </app-data-table>
 </template>
 
