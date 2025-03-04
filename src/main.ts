@@ -30,6 +30,7 @@ import DataTable from "primevue/datatable";
 import ConfirmDialog from "primevue/confirmdialog";
 import InlineMessage from "primevue/inlinemessage";
 import Badge from "primevue/badge";
+import Tooltip from "primevue/tooltip";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -47,12 +48,17 @@ initializeApp(firebaseConfig);
 const app = createApp(App);
 const pinia = createPinia();
 
+// Подключение плагинов
 app.use(pinia);
 app.use(router);
 app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 
+// Директивы
+app.directive("tooltip", Tooltip);
+
+// Глобальные компоненты
 app.component("app-menubar", Menubar);
 app.component("app-button", Button);
 app.component("app-radio", Radio);
