@@ -19,6 +19,6 @@ export interface IInterview {
 // Интерфейс этапа собеседования
 export interface IStage {
   name: string;
-  date: string;
+  date: Date | null;
   description: string;
 }
