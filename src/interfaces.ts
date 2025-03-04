@@ -13,6 +13,7 @@ export interface IInterview {
   salaryFrom?: number;
   salaryTo?: number;
   stages?: IStage[];
+  result?: "Refusal" | "Offer";
 }
 
 // Интерфейс этапа собеседования
