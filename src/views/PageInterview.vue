@@ -46,10 +46,10 @@ const getData = async (): Promise<void> => {
       });
     }
 
-    interview.value = docSnap.data() as IInterview;
+    interview.value = data;
     console.log(interview.value);
-    isLoading.value = false;
   }
+  isLoading.value = false;
 };
 
 // Функция добавления этапа
