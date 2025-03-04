@@ -117,27 +117,37 @@ onMounted(async () => {
 
         // Шаблон для добавления этапа
         <template v-if="interview.stage">
-          <div class="interview-stage">
+          <div
+            class="interview-stage"
+            v-for="(stage, index) in interview.stage"
+            :key="index"
+          >
             <div class="flex flex-column gap-2">
-              <label for="stageName">Название этапа</label>
-              <app-input-text class="input mb-3" id="stageName" />
-            </div>
-
-            <div class="flex flex-column gap-2">
-              <label for="stageСalendar">Дата прохождения этапа</label>
-              <app-calendar
+              <label :for="`stage-name-${index}`"> Название этапа</label>
+              <app-input-text
                 class="input mb-3"
-                id="stageСalendar"
-                dateFormat="dd.mm.yy"
+                :id="`stage-name-${index}`"
+                v-model="stage.name"
               />
             </div>
 
             <div class="flex flex-column gap-2">
-              <label for="stageDescription">Комментарий</label>
+              <label :for="`stage-date-${index}`">Дата прохождения этапа</label>
+              <app-calendar
+                class="input mb-3"
+                :id="`stage-date-${index}`"
+                dateFormat="dd.mm.yy"
+                v-model="stage.date"
+              />
+            </div>
+
+            <div class="flex flex-column gap-2">
+              <label :for="`stage-description-${index}`">Комментарий</label>
               <app-input-textarea
-                id="stageDescription"
+                :id="`stage-description-${index}`"
                 class="input mb-3"
                 rows="5"
+                v-model="stage.description"
               />
             </div>
             <app-button severity="danger" label="Удалить этап" />
