@@ -41,6 +41,16 @@
             />
           </div>
         </div>
+        <app-button
+          label="Добавить этап"
+          severity="info"
+          Icon="pi pi-plus"
+          class="mb-3"
+        />
+        <div class="flex flex-column gap-2">
+          <label for="stageName">Название этапа</label>
+          <app-input-text class="input mb-3" id="stageName" />
+        </div>
       </template>
     </app-card>
   </div>
