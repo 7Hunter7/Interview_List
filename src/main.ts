@@ -17,6 +17,7 @@ import ConfirmationService from "primevue/confirmationservice";
 // Компонеты PrimeVue
 import Menubar from "primevue/menubar";
 import Button from "primevue/button";
+import Radio from "primevue/radiobutton";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import Textarea from "primevue/textaria";
@@ -53,6 +54,7 @@ app.use(ConfirmationService);
 
 app.component("app-menubar", Menubar);
 app.component("app-button", Button);
+app.component("app-radio", Radio);
 app.component("app-input-text", InputText);
 app.component("app-input-number", InputNumber);
 app.component("app-textaria", Textarea);
