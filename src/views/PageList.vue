@@ -27,11 +27,14 @@ const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
     orderBy("createdAt", "desc") // С сортировкой по полю "date" по убыванию
   );
   const ListDocs = await getDocs(getData); // Получение всех документов из коллекции
-  console.log(ListDocs);
+  return ListDocs.docs.map((doc) => doc.data() as T);
 };
 
 onMounted(async () => {
-  await getAllInterviews();
+  const listInterviews: Array<IInterview> = await getAllInterviews();
+  console.log(listInterviews);
+
+  interviews.value = [...listInterviews];
 });
 </script>
 
