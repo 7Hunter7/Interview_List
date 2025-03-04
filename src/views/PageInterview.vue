@@ -9,6 +9,7 @@ const db = getFirestore();
 const router = useRouter();
 const userStore = useUserStore();
 const interview = ref<IInterview>();
+const isLoading = ref<boolean>(true);
 
 const docRef = doc(
   db,
@@ -18,11 +19,14 @@ const docRef = doc(
 
 // Функция получения данных
 const getData = async (): Promise<void> => {
+  isLoading.value = true;
+
   const docSnap = await getDoc(docRef);
   // Если документ существует, записываем его в переменную interview
   if (docSnap.exists()) {
     interview.value = docSnap.data() as IInterview;
     console.log(interview.value);
+    isLoading.value = false;
   }
 };
 
@@ -32,7 +36,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="content-interview">
+  <app-progress v-if="isLoading" />
+  <div v-else class="content-interview">
     <app-card>
       <template #title>Cобеседвание в компанию</template>
       <template #content>
