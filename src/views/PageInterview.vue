@@ -185,19 +185,26 @@ onMounted(async () => {
           </div>
         </template>
 
+        // Шаблон для выбора результата собеседования
         <div class="flex flex-wrap gap-3 mb-3">
           <div class="flex align-items-center">
             <app-radio
               inputId="interviewResult1"
               name="result"
               value="Refusal"
+              v-model="interview.result"
             />
             <label for="interviewResult1" class="ml-2">Отказ</label>
           </div>
         </div>
         <div class="flex flex-wrap gap-3 mb-3">
           <div class="flex align-items-center">
-            <app-radio inputId="interviewResult2" name="result" value="Offer" />
+            <app-radio
+              inputId="interviewResult2"
+              name="result"
+              value="Offer"
+              v-model="interview.result"
+            />
             <label for="interviewResult2" class="ml-2">Оффер</label>
           </div>
         </div>
