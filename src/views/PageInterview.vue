@@ -4,6 +4,7 @@ import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore"; // И
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import type { IInterview, IStage } from "@/interfaces";
+import dayjs from "dayjs";
 
 const db = getFirestore();
 const router = useRouter();
@@ -59,8 +60,16 @@ const deleteStage = (index: number) => {
 // Функция сохранения данных
 const saveInterview = async (): Promise<void> => {
   isLoading.value = true;
-  // Если данные есть, обновляем документ в Firestore и переходим на страницу со списком собеседований
-  if (interview.value) {
+
+  // Если данные есть, обновляем документ в Firestore
+  if (interview.value?.stages && interview.value.stages.length) {
+    interview.value.stages = interview.value.stages.map((stage: IStage) => {
+      return {
+        ...stage,
+        date: dayjs(stage.date).format("DD.MM.YYYY"), // Преобразуем дату в удобном формате
+      };
+    });
+
     await updateDoc(docRef, interview.value);
     await getData(); // Обновляем данные
   }
