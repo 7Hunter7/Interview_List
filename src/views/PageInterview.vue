@@ -35,12 +35,15 @@
               inputId="salsaryFrom"
               placeholder="Зарплатная вилка от"
             />
+          </div>
+          <div class="flex-auto">
             <app-input-number
               inputId="salsaryTo"
               placeholder="Зарплатная вилка до"
             />
           </div>
         </div>
+
         <app-button
           label="Добавить этап"
           severity="info"
@@ -67,9 +70,28 @@
             class="input mb-3"
             id="stageDescription"
             rows="5"
-          ></app-input-textarea>
+          />
         </div>
-        <app-button label="Удалить этап" severity="danger" />
+        <app-button severity="danger" label="Удалить этап" />
+
+        <div class="flex flex-wrap gap-3 mb-3">
+          <div class="flex align-items-center">
+            <app-radio
+              inputId="interviewResult1"
+              name="result"
+              value="Refusal"
+            />
+            <label for="interviewResult1" class="ml-2">Отказ</label>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3 mb-3">
+          <div class="flex align-items-center">
+            <app-radio inputId="interviewResult2" name="result" value="Offer" />
+            <label for="interviewResult2" class="ml-2">Оффер</label>
+          </div>
+        </div>
+
+        <app-button label="Сохранить" icon="pi pi-save" />
       </template>
     </app-card>
   </div>
