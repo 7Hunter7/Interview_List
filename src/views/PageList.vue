@@ -50,17 +50,53 @@ onMounted(async () => {
     </app-column>
     <app-column header="Контакты">
       <template #body="slotProps">
-        <a
-          v-if="slotProps.data.contactPhone"
-          :href="`https://t.me/${slotProps.data.contactTelegram}`"
-          target="_blank"
-          class="contacts__telegram"
-        >
-          <span class="contacts__icon pi pi-telegram"></span>
-        </a>
+        <div class="contacts">
+          <a
+            v-if="slotProps.data.contactPhone"
+            :href="`https://t.me/${slotProps.data.contactTelegram}`"
+            target="_blank"
+            class="contacts__telegram"
+          >
+            <span class="contacts__icon pi pi-telegram"></span>
+          </a>
+          <a
+            v-if="slotProps.data.contactWhatsApp"
+            :href="`https://wa.me/${slotProps.data.contactWhatsApp}`"
+            target="_blank"
+            class="contacts__whatsapp"
+          >
+            <span class="contacts__icon pi pi-whatsapp"></span>
+          </a>
+          <a
+            v-if="slotProps.data.contactPhone"
+            :href="`tel:${slotProps.data.contactPhone}`"
+            target="_blank"
+            class="contacts__phone"
+          >
+            <span class="contacts__icon pi pi-phone"></span>
+          </a>
+        </div>
       </template>
     </app-column>
   </app-data-table>
 </template>
 
-<style scoped></style>
+<style scoped>
+.contacts {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.contacts__telegram {
+  color: #0088cc;
+}
+.contacts__whatsapp {
+  color: #25d366;
+}
+.contacts__phone {
+  color: #371777;
+}
+.contacts__icon {
+  font-size: 20px;
+}
+</style>
