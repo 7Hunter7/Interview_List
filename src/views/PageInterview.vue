@@ -60,6 +60,16 @@
             dateFormat="dd.mm.yy"
           />
         </div>
+
+        <div class="flex flex-column gap-2">
+          <label for="stageDescription">Комментарий</label>
+          <app-input-textarea
+            class="input mb-3"
+            id="stageDescription"
+            rows="5"
+          ></app-input-textarea>
+        </div>
+        <app-button label="Удалить этап" severity="danger" />
       </template>
     </app-card>
   </div>
