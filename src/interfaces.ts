@@ -10,4 +10,6 @@ export interface IInterview {
   contactPhone?: string;
   createdAt: Date;
   updatedAt: Date;
+  salaryFrom?: number;
+  salaryTo?: number;
 }
