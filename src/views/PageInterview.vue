@@ -30,6 +30,22 @@ const getData = async (): Promise<void> => {
   }
 };
 
+// Функция добавления этапа
+const addStage = () => {
+  if (interview.value) {
+    // Если массива нет, создаем его
+    if (!interview.value.stage) {
+      interview.value.stage = [];
+    }
+    // Добавляем новый объект в массив
+    interview.value.stage.push({
+      name: "",
+      date: "",
+      description: "",
+    } as IStage);
+  }
+};
+
 onMounted(async () => {
   await getData();
 });
@@ -113,6 +129,7 @@ onMounted(async () => {
           severity="info"
           Icon="pi pi-plus"
           class="mb-3"
+          @click="addStage"
         />
 
         // Шаблон для добавления этапа
