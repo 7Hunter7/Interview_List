@@ -11,7 +11,7 @@ import {
   where,
 } from "firebase/firestore"; // Импорт функций для работы с Firestore
 import { useUserStore } from "@/stores/user";
-import type { IInterview } from "@/interfaces"; // Импорт интерфейса IInterview
+import type { IInterview } from "@/interfaces";
 
 const userStore = useUserStore();
 const db = getFirestore(); // Получение доступа к Firestore
@@ -19,7 +19,7 @@ const db = getFirestore(); // Получение доступа к Firestore
 const interviews = ref<IInterview[]>([]);
 const isLoading = ref<boolean>(true);
 
-// Создание функции для получения всех собеседований
+// Функция получения всех собеседований
 const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
   // Создание запроса к коллекции "interviews"
   const getData = query(
@@ -28,6 +28,16 @@ const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
   );
   const ListDocs = await getDocs(getData); // Получение всех документов из коллекции
   return ListDocs.docs.map((doc) => doc.data() as T);
+};
+
+// Функция удаления собеседования
+const confirmRemoveInterview = async (id: string): Promise<void> => {
+  if (confirm("Вы уверены, что хотите удалить это собеседование?")) {
+    await deleteDoc(doc(db, `users/${userStore.userId}/interviews`, id));
+    interviews.value = interviews.value.filter(
+      (interview) => interview.id !== id
+    );
+  }
 };
 
 onMounted(async () => {
