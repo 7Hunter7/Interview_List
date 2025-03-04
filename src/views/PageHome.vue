@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
 import type { IInterview } from "@/interfaces";
 import { v4 as uuidv4 } from "uuid"; // Для генерации уникального id
-import { getAuth } from "firebase/auth";
 import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { useToast } from "primevue/usetoast";
 
+const userStore = useUserStore();
 const router = useRouter();
+const toast = useToast();
 
+// Поля для нового собеседования
 const company = ref<string>("");
 const vacancyLink = ref<string>("");
 const hrName = ref<string>("");
@@ -17,8 +21,10 @@ const contactPhone = ref<string>("");
 
 const loading = ref<boolean>(false);
 
+// Добавление нового собеседования
 const addNewInterview = async (): Promise<void> => {
   loading.value = true;
+
   const payload: IInterview = {
     id: uuidv4(), // Генерируем уникальный id
     company: company.value,
@@ -29,16 +35,25 @@ const addNewInterview = async (): Promise<void> => {
     contactPhone: contactPhone.value,
     createdAt: new Date().toISOString(),
   };
-  const userId = getAuth().currentUser?.uid; // Получаем id пользователя
-  if (userId) {
+
+  if (userStore.userId) {
     const db = getFirestore(); // Получаем доступ к Firestore
-    const userDoc = doc(db, "users", userId); // Получаем документ пользователя
+
     try {
       // Добавляем новое собеседование
-      await setDoc(doc(userDoc, "interviews", payload.id), payload).then(() => {
+      await setDoc(
+        doc(db, `users/${userStore.userId}/interviews`, payload.id),
+        payload
+      ).then(() => {
         router.push("/list"); // Переход на страницу со списком собеседований
       });
     } catch (error: unknown) {
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: "Не удалось добавить собеседование",
+        life: 3000,
+      });
       console.error(error);
     } finally {
       loading.value = false;
