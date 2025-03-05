@@ -146,7 +146,7 @@ onMounted(async () => {
       >
     </div>
 
-    <app-datatable :data="interviews" :isLoading="isLoading">
+    <app-datatable :value="interviews">
       <app-column field="company" header="Компания" />
       <app-column field="hrName" header="Имя HR" />
       <app-column field="vacancyLink" header="Вакансия">
