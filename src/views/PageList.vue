@@ -55,8 +55,8 @@ const getAllInterviews = async <T extends IInterview>(
   }
 
   // Получение всех документов из коллекции
-  const ListDocs = await getDocs(getData);
-  return ListDocs.docs.map((doc) => doc.data() as T);
+  const listDocs = await getDocs(getData);
+  return listDocs.docs.map((doc) => doc.data() as T);
 };
 
 // Функция удаления собеседования
@@ -118,8 +118,20 @@ onMounted(async () => {
         />
         <label for="interviewResult1" class="ml-2">Оффер</label>
       </div>
-      <app-button class="mr-2" @click="submitFilter"> Применить</app-button>
-      <app-button class="mr-2" severity="danger"> Сбросить</app-button>
+      <app-button
+        class="mr-2"
+        @click="submitFilter"
+        :disabled="!selectedFilterResult"
+      >
+        Применить</app-button
+      >
+      <app-button
+        class="mr-2"
+        severity="danger"
+        :disabled="!selectedFilterResult"
+      >
+        Сбросить</app-button
+      >
     </div>
 
     // Таблица с данными собеседований
