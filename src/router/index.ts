@@ -36,7 +36,6 @@ const routes: RouteRecordRaw[] = [
     path: "/auth",
     name: "Auth",
     component: () => import("@/views/PageAuth.vue"),
-    beforeEnter: checkAuth,
   },
   {
     path: "/interview/:id",
