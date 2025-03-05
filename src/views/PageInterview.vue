@@ -216,9 +216,9 @@ onMounted(async () => {
         />
         <template v-if="interview.stages">
           <div
-            class="interview-stage"
-            v-for="(stage, index) in interview.stage"
+            v-for="(stage, index) in interview.stages"
             :key="index"
+            class="interview-stage"
           >
             <div class="flex flex-column gap-2">
               <label :for="`stage-name-${index}`">Название этапа</label>
