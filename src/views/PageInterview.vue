@@ -99,7 +99,7 @@ onMounted(async () => {
   <div class="content-interview" v-else-if="interview?.id && !isLoading">
     <app-card>
       <template #title
-        >Cобеседвание в компанию {{ interview.company }}</template
+        >Собеседование в компанию {{ interview.company }}</template
       >
       <template #content>
         <div class="flex flex-column gap-2">
@@ -111,7 +111,7 @@ onMounted(async () => {
           />
         </div>
         <div class="flex flex-column gap-2">
-          <label for="vacancyLink">Описание вакансиии (ссылка)</label>
+          <label for="vacancyLink">Описание вакансии (ссылка)</label>
           <app-input-text
             class="input mb-3"
             id="vacancyLink"
@@ -153,16 +153,16 @@ onMounted(async () => {
         <div class="flex flex-wrap gap-3 p-fluid mb-3">
           <div class="flex-auto">
             <app-input-number
-              inputId="salsaryFrom"
+              inputId="salaryFrom"
               placeholder="Зарплатная вилка от"
-              v-model="interview.salsaryFrom"
+              v-model="interview.salaryFrom"
             />
           </div>
           <div class="flex-auto">
             <app-input-number
-              inputId="salsaryTo"
+              inputId="salaryTo"
               placeholder="Зарплатная вилка до"
-              v-model="interview.salsaryTo"
+              v-model="interview.salaryTo"
             />
           </div>
         </div>
@@ -170,19 +170,18 @@ onMounted(async () => {
         <app-button
           label="Добавить этап"
           severity="info"
-          Icon="pi pi-plus"
+          icon="pi pi-plus"
           class="mb-3"
           @click="addStage()"
         />
-
-        <template v-if="interview.stage">
+        <template v-if="interview.stages">
           <div
             class="interview-stage"
             v-for="(stage, index) in interview.stage"
             :key="index"
           >
             <div class="flex flex-column gap-2">
-              <label :for="`stage-name-${index}`"> Название этапа</label>
+              <label :for="`stage-name-${index}`">Название этапа</label>
               <app-input-text
                 class="input mb-3"
                 :id="`stage-name-${index}`"
@@ -202,7 +201,7 @@ onMounted(async () => {
 
             <div class="flex flex-column gap-2">
               <label :for="`stage-description-${index}`">Комментарий</label>
-              <app-input-textarea
+              <app-textarea
                 :id="`stage-description-${index}`"
                 class="input mb-3"
                 rows="5"
@@ -227,8 +226,6 @@ onMounted(async () => {
             />
             <label for="interviewResult1" class="ml-2">Отказ</label>
           </div>
-        </div>
-        <div class="flex flex-wrap gap-3 mb-3">
           <div class="flex align-items-center">
             <app-radio
               inputId="interviewResult2"
