@@ -8,7 +8,7 @@ export interface IInterview {
   contactWhatsApp?: string;
   contactPhone?: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
   salaryFrom?: number;
   salaryTo?: number;
   stages?: IStage[];
