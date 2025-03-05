@@ -28,7 +28,7 @@ const checkAuth = (
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
     component: () => import("@/views/PageHome.vue"),
     beforeEnter: checkAuth, // Проверка авторизации перед переходом на страницу
   },
