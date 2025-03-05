@@ -45,13 +45,19 @@ const addNewInterview = async (): Promise<void> => {
         doc(db, `users/${userStore.userId}/interviews`, payload.id),
         payload
       ).then(() => {
+        toast.add({
+          severity: "success",
+          summary: "Усех",
+          detail: "Собеседование успешно добавлено!",
+          life: 3000,
+        });
         router.push("/list"); // Переход на страницу со списком собеседований
       });
     } catch (error: unknown) {
       toast.add({
         severity: "error",
         summary: "Ошибка",
-        detail: "Не удалось добавить собеседование",
+        detail: "Не удалось добавить собеседование!",
         life: 3000,
       });
       console.error(error);
