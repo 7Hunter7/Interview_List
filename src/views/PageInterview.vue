@@ -175,7 +175,6 @@ onMounted(async () => {
           @click="addStage()"
         />
 
-        // Шаблон для добавления этапа
         <template v-if="interview.stage">
           <div
             class="interview-stage"
@@ -218,7 +217,6 @@ onMounted(async () => {
           </div>
         </template>
 
-        // Шаблон для выбора результата собеседования
         <div class="flex flex-wrap gap-3 mb-3">
           <div class="flex align-items-center">
             <app-radio
