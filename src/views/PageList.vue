@@ -72,6 +72,7 @@ onMounted(async () => {
   <div v-else>
     <h1>Список собеседований</h1>
 
+    // Фильтр по результату собеседования
     <div class="flex align-items-center mb-5">
       <div class="flex align-items-center mr-2">
         <app-radio
@@ -91,8 +92,11 @@ onMounted(async () => {
         />
         <label for="interviewResult1" class="ml-2">Оффер</label>
       </div>
+      <app-button class="mr-2"> Применить</app-button>
+      <app-button class="mr-2" severity="danger"> Сбросить</app-button>
     </div>
 
+    // Таблица с данными собеседований
     <app-data-table :data="interviews" :isLoading="isLoading">
       <app-column field="company" header="Компания" />
       <app-column field="hrName" header="Имя HR" />
