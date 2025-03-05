@@ -6,9 +6,6 @@ import {
   query,
   orderBy,
   getDocs,
-  deleteDoc,
-  doc,
-  where,
 } from "firebase/firestore"; // Импорт функций для работы с Firestore
 import { useUserStore } from "@/stores/user";
 import type { IInterview } from "@/interfaces";
@@ -26,24 +23,38 @@ const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
     orderBy("createdAt", "desc")
   );
 
-  // Получение всех документов из коллекции
   const listDocs = await getDocs(getData);
   return listDocs.docs.map((doc) => doc.data() as T);
 };
 
-onMounted(() => {
-  // chartData.value = setChartData();
-  // chartOptions.value = setChartOptions();
+onMounted(async () => {
+  interviews.value = await getAllInterviews();
+  chartData.value = setChartData();
+  chartOptions.value = setChartOptions();
 });
 
+// Функция установки данных для графика
 const setChartData = () => {
   const documentStyle = getComputedStyle(document.body);
 
+  const data: number[] = [0, 0, 0];
+
+  // Подсчет количества собеседований по результатам
+  interviews.value.forEach((interview: IInterview) => {
+    if (interview.result === "Offer") {
+      data[0]++;
+    } else if (interview.result === "Refusal") {
+      data[1]++;
+    } else {
+      data[2]++;
+    }
+  });
+
   return {
-    labels: ["A", "B", "C"],
+    labels: ["Оффер", "Отказ", "В процессе"],
     datasets: [
       {
-        data: [540, 325, 702],
+        data,
         backgroundColor: [
           documentStyle.getPropertyValue("--p-cyan-500"),
           documentStyle.getPropertyValue("--p-orange-500"),
