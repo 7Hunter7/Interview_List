@@ -33,6 +33,18 @@ const submitFilter = async (): Promise<void> => {
   isLoading.value = false;
 };
 
+// Функция сброса фильтрации
+const clearFilter = async (): Promise<void> => {
+  isLoading.value = true;
+
+  // Получение всех собеседований без фильтрации
+  const listInterviews: Array<IInterview> = await getAllInterviews(); // false
+  interviews.value = listInterviews;
+
+  selectedFilterResult.value = "";
+  isLoading.value = false;
+};
+
 // Функция получения всех собеседований
 const getAllInterviews = async <T extends IInterview>(
   isFilter?: boolean
@@ -128,6 +140,7 @@ onMounted(async () => {
       <app-button
         class="mr-2"
         severity="danger"
+        @click="clearFilter"
         :disabled="!selectedFilterResult"
       >
         Сбросить</app-button
