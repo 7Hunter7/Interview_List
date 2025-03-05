@@ -108,14 +108,17 @@ const saveInterview = async (): Promise<void> => {
   isLoading.value = true;
   try {
     // Обновляем документ в Firestore
-    await updateDoc(docRef, { ...interview.value });
-    toast.add({
-      severity: "success",
-      summary: "Усех",
-      detail: "Собеседование успешно сохранено",
-      life: 3000,
+    await updateDoc(docRef, { ...interview.value }).then(() => {
+      toast.add({
+        severity: "success",
+        summary: "Успех",
+        detail: "Собеседование успешно сохранено",
+        group: "tl",
+        life: 3000,
+      });
+
+      router.push("/list"); // Переход на страницу со списком собеседований
     });
-    router.push("/list"); // Переход на страницу со списком собеседований
   } catch (error: unknown) {
     toast.add({
       severity: "error",
