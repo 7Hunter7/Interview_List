@@ -18,7 +18,7 @@ onMounted(() => {
 <template>
   <app-progress v-if="isLoading" />
   <div v-else class="container">
-    <AppHeder />
+    <AppHeader />
     <div class="content">
       <RouterView />
     </div>

@@ -96,7 +96,7 @@ const confirmRemoveInterview = async (id: string): Promise<void> => {
 
 onMounted(async () => {
   const listInterviews: Array<IInterview> = await getAllInterviews();
-  interviews.value = listInterviews;
+  interviews.value = [...listInterviews];
   isLoading.value = false;
 });
 </script>
