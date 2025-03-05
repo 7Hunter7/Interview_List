@@ -1,13 +1,40 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  getDocs,
+  deleteDoc,
+  doc,
+  where,
+} from "firebase/firestore"; // Импорт функций для работы с Firestore
+import { useUserStore } from "@/stores/user";
+import type { IInterview } from "@/interfaces";
 
-onMounted(() => {
-  chartData.value = setChartData();
-  chartOptions.value = setChartOptions();
-});
-
+const userStore = useUserStore();
+const db = getFirestore();
+const interviews = ref<IInterview[]>([]);
 const chartData = ref();
 const chartOptions = ref();
+
+// Функция получения всех собеседований
+const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
+  const getData = query(
+    collection(db, `users/${userStore.userId}/interviews`),
+    orderBy("createdAt", "desc")
+  );
+
+  // Получение всех документов из коллекции
+  const listDocs = await getDocs(getData);
+  return listDocs.docs.map((doc) => doc.data() as T);
+};
+
+onMounted(() => {
+  // chartData.value = setChartData();
+  // chartOptions.value = setChartOptions();
+});
 
 const setChartData = () => {
   const documentStyle = getComputedStyle(document.body);
