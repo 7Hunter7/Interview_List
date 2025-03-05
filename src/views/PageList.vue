@@ -122,22 +122,20 @@ onMounted(async () => {
       </div>
       <div class="flex align-items-center mr-2">
         <app-radio
-          inputId="interviewResult1"
+          inputId="interviewResult2"
           name="result"
           value="Offer"
           v-model="selectedFilterResult"
         />
-        <label for="interviewResult1" class="ml-2">Оффер</label>
+        <label for="interviewResult2" class="ml-2">Оффер</label>
       </div>
       <app-button
         class="mr-2"
         @click="submitFilter"
         :disabled="!selectedFilterResult"
-      >
-        Применить</app-button
+        >Применить</app-button
       >
       <app-button
-        class="mr-2"
         severity="danger"
         @click="clearFilter"
         :disabled="!selectedFilterResult"
@@ -146,7 +144,7 @@ onMounted(async () => {
       >
     </div>
 
-    <app-data-table :data="interviews" :isLoading="isLoading">
+    <app-datatable :data="interviews" :isLoading="isLoading">
       <app-column field="company" header="Компания" />
       <app-column field="hrName" header="Имя HR" />
       <app-column field="vacancyLink" header="Вакансия">
@@ -160,7 +158,7 @@ onMounted(async () => {
         <template #body="slotProps">
           <div class="contacts">
             <a
-              v-if="slotProps.data.contactPhone"
+              v-if="slotProps.data.contactTelegram"
               :href="`https://t.me/${slotProps.data.contactTelegram}`"
               target="_blank"
               class="contacts__telegram"
@@ -190,7 +188,7 @@ onMounted(async () => {
       <app-column header="Пройденные этапы">
         <template #body="slotProps">
           <span v-if="!slotProps.data.stages">Не заполнено</span>
-          <div v-else class="interview-stage">
+          <div v-else class="interview-stages">
             <app-badge
               v-for="(stage, index) in slotProps.data.stages"
               :key="index"
@@ -201,8 +199,7 @@ onMounted(async () => {
           </div>
         </template>
       </app-column>
-
-      <app-column header="Зарлатная вилка">
+      <app-column header="Зарплатная вилка">
         <template #body="slotProps">
           <span v-if="!slotProps.data.salaryFrom">Не заполнено</span>
           <span v-else>
@@ -229,8 +226,8 @@ onMounted(async () => {
       <app-column>
         <template #body="slotProps">
           <div class="flex gap-2">
-            <router-link to="`/interview/${slotProps.data.id}`">
-              <app-button icon="pi pi-pencel" severity="info" />
+            <router-link :to="`/interview/${slotProps.data.id}`">
+              <app-button icon="pi pi-pencil" severity="info" />
             </router-link>
             <app-button
               icon="pi pi-trash"
@@ -240,7 +237,7 @@ onMounted(async () => {
           </div>
         </template>
       </app-column>
-    </app-data-table>
+    </app-datatable>
   </div>
 </template>
 
