@@ -22,14 +22,40 @@ const interviews = ref<IInterview[]>([]);
 const isLoading = ref<boolean>(true);
 const selectedFilterResult = ref<string>("");
 
+// Функция фильтрации собеседований
+const submitFilter = async (): Promise<void> => {
+  isLoading.value = true;
+
+  // Получение всех собеседований с фильтрацией по 'selectedFilterResult'
+  const listInterviews: Array<IInterview> = await getAllInterviews(true);
+  interviews.value = listInterviews;
+
+  isLoading.value = false;
+};
+
 // Функция получения всех собеседований
-const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
-  // Создание запроса к коллекции "interviews"
-  const getData = query(
-    collection(db, `users/${userStore.userId}/interviews`),
-    orderBy("createdAt", "desc") // С сортировкой по полю "date" по убыванию
-  );
-  const ListDocs = await getDocs(getData); // Получение всех документов из коллекции
+const getAllInterviews = async <T extends IInterview>(
+  isFilter?: boolean
+): Promise<T[]> => {
+  let getData;
+
+  // Если передан флаг фильтрации, то возвращаем данные отфильтрованные по 'selectedFilterResult'
+  if (isFilter) {
+    getData = query(
+      collection(db, `users/${userStore.userId}/interviews`),
+      orderBy("createdAt", "desc"),
+      where("result", "==", selectedFilterResult.value)
+    );
+  } else {
+    // Иначе с сортировкой по полю "date" по убыванию
+    getData = query(
+      collection(db, `users/${userStore.userId}/interviews`),
+      orderBy("createdAt", "desc")
+    );
+  }
+
+  // Получение всех документов из коллекции
+  const ListDocs = await getDocs(getData);
   return ListDocs.docs.map((doc) => doc.data() as T);
 };
 
@@ -92,7 +118,7 @@ onMounted(async () => {
         />
         <label for="interviewResult1" class="ml-2">Оффер</label>
       </div>
-      <app-button class="mr-2"> Применить</app-button>
+      <app-button class="mr-2" @click="submitFilter"> Применить</app-button>
       <app-button class="mr-2" severity="danger"> Сбросить</app-button>
     </div>
 
