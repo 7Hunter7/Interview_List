@@ -90,7 +90,7 @@ const confirmRemoveInterview = async (id: string): Promise<void> => {
       await deleteDoc(doc(db, `users/${userStore.userId}/interviews`, id));
 
       const listInterviews: Array<IInterview> = await getAllInterviews();
-      interviews.value = [...listInterviews];
+      interviews.value = listInterviews;
       isLoading.value = false;
     },
   });
@@ -98,7 +98,7 @@ const confirmRemoveInterview = async (id: string): Promise<void> => {
 
 onMounted(async () => {
   const listInterviews: Array<IInterview> = await getAllInterviews();
-  interviews.value = [...listInterviews];
+  interviews.value = listInterviews;
   isLoading.value = false;
 });
 </script>
@@ -133,14 +133,14 @@ onMounted(async () => {
       </div>
       <app-button
         class="mr-2"
-        @click="submitFilter"
         :disabled="!selectedFilterResult"
+        @click="submitFilter()"
         >Применить</app-button
       >
       <app-button
         severity="danger"
-        @click="clearFilter"
         :disabled="!selectedFilterResult"
+        @click="clearFilter()"
       >
         Сбросить</app-button
       >
@@ -177,7 +177,7 @@ onMounted(async () => {
             </a>
             <a
               v-if="slotProps.data.contactPhone"
-              :href="`tel:${slotProps.data.contactPhone}`"
+              :href="`https://tel:${slotProps.data.contactPhone}`"
               target="_blank"
               class="contacts__phone"
             >
