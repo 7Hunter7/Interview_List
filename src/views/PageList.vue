@@ -20,6 +20,7 @@ const confirm = useConfirm();
 
 const interviews = ref<IInterview[]>([]);
 const isLoading = ref<boolean>(true);
+const selectedFilterResult = ref<string>("");
 
 // Функция получения всех собеседований
 const getAllInterviews = async <T extends IInterview>(): Promise<T[]> => {
@@ -70,6 +71,28 @@ onMounted(async () => {
   >
   <div v-else>
     <h1>Список собеседований</h1>
+
+    <div class="flex align-items-center mb-5">
+      <div class="flex align-items-center mr-2">
+        <app-radio
+          inputId="interviewResult1"
+          name="result"
+          value="Refusal"
+          v-model="selectedFilterResult"
+        />
+        <label for="interviewResult1" class="ml-2">Отказ</label>
+      </div>
+      <div class="flex align-items-center mr-2">
+        <app-radio
+          inputId="interviewResult1"
+          name="result"
+          value="Offer"
+          v-model="selectedFilterResult"
+        />
+        <label for="interviewResult1" class="ml-2">Оффер</label>
+      </div>
+    </div>
+
     <app-data-table :data="interviews" :isLoading="isLoading">
       <app-column field="company" header="Компания" />
       <app-column field="hrName" header="Имя HR" />
