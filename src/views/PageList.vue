@@ -68,7 +68,9 @@ const getAllInterviews = async <T extends IInterview>(
 
   // Получение всех документов из коллекции
   const listDocs = await getDocs(getData);
-  return listDocs.docs.map((doc) => doc.data() as T);
+  const allInterviews = listDocs.docs.map((doc) => doc.data() as T);
+  console.log(allInterviews);
+  return allInterviews;
 };
 
 // Функция удаления собеседования

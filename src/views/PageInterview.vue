@@ -7,12 +7,12 @@ import {
   updateDoc,
   Timestamp,
 } from "firebase/firestore"; // Импорт функций для работы с Firestore
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import type { IInterview, IStage } from "@/interfaces";
 
 const db = getFirestore();
-const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 const interview = ref<IInterview>();
 const isLoading = ref<boolean>(true);
@@ -20,7 +20,7 @@ const isLoading = ref<boolean>(true);
 const docRef = doc(
   db,
   `users/${userStore.userId}/interviews`,
-  router.currentRoute.value.params.id as string
+  route.params.id as string
 );
 
 // Функция получения данных
@@ -33,8 +33,8 @@ const getData = async (): Promise<void> => {
     const data = docSnap.data() as IInterview;
 
     // Проверяем, что массив существует и не пустой
-    if (data.stage && data.stage.length) {
-      data.stage = data.stage.map((stage: IStage) => {
+    if (data.stages && data.stages.length) {
+      data.stages = data.stages.map((stage: IStage) => {
         // Проверяем, что поле date является Timestamp
         if (stage.date && stage.date instanceof Timestamp) {
           return {
@@ -47,24 +47,24 @@ const getData = async (): Promise<void> => {
     }
 
     interview.value = data;
-    console.log(interview.value);
   }
   isLoading.value = false;
+  console.log(interview.value);
 };
 
 // Функция добавления этапа
 const addStage = () => {
   if (interview.value) {
     // Если массива нет, создаем его
-    if (!interview.value.stage) {
-      interview.value.stage = [];
+    if (!interview.value.stages) {
+      interview.value.stages = [];
     }
     // Добавляем новый объект в массив
-    interview.value.stage.push({
+    interview.value.stages.push({
       name: "",
       date: null,
       description: "",
-    } as IStage);
+    });
   }
 };
 
@@ -72,8 +72,8 @@ const addStage = () => {
 const deleteStage = (index: number): void => {
   if (interview.value) {
     // Удаляем объект из массива по индексу
-    if (interview.value.stage) {
-      interview.value.stage.splice(index, 1);
+    if (interview.value.stages) {
+      interview.value.stages.splice(index, 1);
     }
   }
 };
@@ -81,11 +81,11 @@ const deleteStage = (index: number): void => {
 // Функция сохранения данных
 const saveInterview = async (): Promise<void> => {
   isLoading.value = true;
-  if (interview.value) {
-    // Обновляем документ в Firestore
-    await updateDoc(docRef, interview.value);
-    await getData(); // Обновляем данные
-  }
+
+  // Обновляем документ в Firestore
+  await updateDoc(docRef, { ...interview.value });
+  await getData(); // Обновляем данные
+
   isLoading.value = false;
 };
 
