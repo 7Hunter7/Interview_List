@@ -33,7 +33,7 @@ const getData = async (): Promise<void> => {
     const data = docSnap.data() as IInterview;
 
     // Проверяем, что массив существует и не пустой
-    if (datd.stage && data.stage.length) {
+    if (data.stage && data.stage.length) {
       data.stage = data.stage.map((stage: IStage) => {
         // Проверяем, что поле date является Timestamp
         if (stage.date && stage.date instanceof Timestamp) {
@@ -69,7 +69,7 @@ const addStage = () => {
 };
 
 // Функция удаления этапа
-const deleteStage = (index: number) => {
+const deleteStage = (index: number): void => {
   if (interview.value) {
     // Удаляем объект из массива по индексу
     if (interview.value.stage) {
@@ -213,7 +213,7 @@ onMounted(async () => {
             <app-button
               severity="danger"
               label="Удалить этап"
-              @click="deleteStage()"
+              @click="deleteStage(index)"
             />
           </div>
         </template>
