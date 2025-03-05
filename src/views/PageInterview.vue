@@ -8,12 +8,17 @@ import {
   Timestamp,
 } from "firebase/firestore"; // Импорт функций для работы с Firestore
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import type { IInterview, IStage } from "@/interfaces";
+import { useToast } from "primevue/usetoast";
 
 const db = getFirestore();
-const route = useRoute();
 const userStore = useUserStore();
+const route = useRoute();
+const router = useRouter();
+const toast = useToast();
+
 const interview = ref<IInterview>();
 const isLoading = ref<boolean>(true);
 
@@ -55,25 +60,45 @@ const getData = async (): Promise<void> => {
 // Функция добавления этапа
 const addStage = () => {
   if (interview.value) {
-    // Если массива нет, создаем его
-    if (!interview.value.stages) {
-      interview.value.stages = [];
+    try {
+      // Если массива нет, создаем его
+      if (!interview.value.stages) {
+        interview.value.stages = [];
+      }
+      // Добавляем новый объект в массив
+      interview.value.stages.push({
+        name: "",
+        date: null,
+        description: "",
+      });
+    } catch (error: unknown) {
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: "Не удалось добавить новый этап собеседования!",
+        life: 3000,
+      });
+      console.error(error);
     }
-    // Добавляем новый объект в массив
-    interview.value.stages.push({
-      name: "",
-      date: null,
-      description: "",
-    });
   }
 };
 
 // Функция удаления этапа
 const deleteStage = (index: number): void => {
   if (interview.value) {
-    // Удаляем объект из массива по индексу
-    if (interview.value.stages) {
-      interview.value.stages.splice(index, 1);
+    try {
+      // Удаляем объект из массива по индексу
+      if (interview.value.stages) {
+        interview.value.stages.splice(index, 1);
+      }
+    } catch (error: unknown) {
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: "Не удалось удалить этап собеседования!",
+        life: 3000,
+      });
+      console.error(error);
     }
   }
 };
@@ -81,12 +106,30 @@ const deleteStage = (index: number): void => {
 // Функция сохранения данных
 const saveInterview = async (): Promise<void> => {
   isLoading.value = true;
-
-  // Обновляем документ в Firestore
-  await updateDoc(docRef, { ...interview.value });
-  await getData(); // Обновляем данные
-
-  isLoading.value = false;
+  try {
+    // Обновляем документ в Firestore
+    await updateDoc(docRef, { ...interview.value });
+    // Обновляем данные
+    await getData().then(() => {
+      toast.add({
+        severity: "success",
+        summary: "Усех",
+        detail: "Собеседование успешно сохранено",
+        life: 3000,
+      });
+      router.push("/list"); // Переход на страницу со списком собеседований
+    });
+  } catch (error: unknown) {
+    toast.add({
+      severity: "error",
+      summary: "Ошибка",
+      detail: "Не удалось сохранить собеседование!",
+      life: 3000,
+    });
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 onMounted(async () => {
