@@ -33,7 +33,7 @@ const addNewInterview = async (): Promise<void> => {
     contactTelegram: contactTelegram.value,
     contactWhatsApp: contactWhatsApp.value,
     contactPhone: contactPhone.value,
-    createdAt: new Date().toISOString(),
+    createdAt: new Date(),
   };
 
   if (userStore.userId) {
