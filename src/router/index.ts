@@ -7,8 +7,8 @@ import type {
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импорт функций для работы с авторизацией
 
 const checkAuth = (
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
+  _to: RouteLocationNormalized,
+  _from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) => {
   let isAuth = false;
