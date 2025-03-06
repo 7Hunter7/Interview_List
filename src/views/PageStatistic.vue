@@ -79,6 +79,7 @@ const setChartOptions = () => {
       legend: {
         labels: {
           usePointStyle: true,
+          cutout: "60%",
           color: textColor,
         },
       },
